@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: olivia-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: olivia
+  template:
+    metadata:
+      labels:
+        app: olivia
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - name: olivia
+        image: olivia
+        command: ["/app/main"]
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: olivia-service
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: olivia

@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2beta1
+kind: Config
+build:
+  artifacts:
+    - image: olivia
+      context: .
+      docker:
+        dockerfile: Dockerfile
+    - image: front
+      context: .staroid/front
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - .staroid/k8s.yaml
+    - .staroid/k8s-front.yaml

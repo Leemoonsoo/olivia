@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - name: front
+        image: front
+        command: ["http-server",  "dist", "-p", "9090"]
+        env:
+        - name: VUE_APP_URL
+          value: ws://olivia-service:8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: front-service
+spec:
+  ports:
+  - name: http
+    port: 9090
+  selector:
+    app: front

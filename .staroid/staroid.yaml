@@ -1,0 +1,6 @@
+apiVersion: beta/v1
+build:
+  skaffold: {}
+ingress:
+- serviceName: olivia-service
+  port: 9090  
