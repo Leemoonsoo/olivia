@@ -1,6 +1,7 @@
 apiVersion: beta/v1
 build:
-  skaffold: {}
+  skaffold:
+    file: .staroid/skaffold.yaml
 ingress:
 - serviceName: olivia-service
   port: 9090  
