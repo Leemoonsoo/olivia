@@ -3,5 +3,5 @@ build:
   skaffold:
     file: .staroid/skaffold.yaml
 ingress:
-- serviceName: olivia-service
+- serviceName: front-service
   port: 9090  
