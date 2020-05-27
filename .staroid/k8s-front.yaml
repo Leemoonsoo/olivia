@@ -17,10 +17,16 @@ spec:
       containers:
       - name: front
         image: front
-        command: ["http-server",  "dist", "-p", "9090"]
+        command: ["sh"]
+        args:
+        - -c
+        - '[ "$SERVICE_DOMAIN" == "localhost" ] && http-server dist -p 9090 || VUE_APP_URL=ws://p8080-olivia-service--$SERVICE_DOMAIN http-server dist -p 9090'
         env:
-        - name: VUE_APP_URL
-          value: ws://olivia-service:8080
+        - name: SERVICE_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: staroid-envs
+              key: STAROID_SERVICE_DOMAIN
 ---
 kind: Service
 apiVersion: v1
@@ -32,3 +38,11 @@ spec:
     port: 9090
   selector:
     app: front
+---
+# see https://docs.staroid.com/references/staroid-envs.html
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: staroid-envs
+data:
+  STAROID_SERVICE_DOMAIN: localhost
